@@ -1,6 +1,8 @@
 # simple pong_Game
 
 import turtle as t
+import winsound as w
+
 
 wn = t.Screen()
 wn.setup(width=800, height=600)
@@ -52,21 +54,30 @@ pen.write("PLAYER A:0  PLAYER B:0",align="center",font=("courier",24,"normal"))
 def paddle_a_up():
     y = paddle_a.ycor()
     y += 20
+    if paddle_a.ycor()>=250:
+        paddle_a.ycor(250)
     paddle_a.sety(y)
 def paddle_a_down():
     y = paddle_a.ycor()
     y -= 20
+    if paddle_a.ycor() <= -250:
+        paddle_a.ycor(-250)
     paddle_a.sety(y)
+
+
 
 def paddle_b_up():
     y = paddle_b.ycor()
     y += 20
+    if paddle_b.ycor()>=250:
+        paddle_b.ycor(250)
     paddle_b.sety(y)
 def paddle_b_down():
     y = paddle_b.ycor()
     y -= 20
+    if paddle_b.ycor() <= -250:
+        paddle_b.ycor(-250)
     paddle_b.sety(y)
-
 
 # keyboard binding
 wn.listen()
@@ -88,10 +99,12 @@ while True:
     if ball.ycor() > 290:
         ball.sety(290)
         ball.dy *= -1
+        w.PlaySound("hit.wav", w.SND_ASYNC)
 
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
+        w.PlaySound("hit.wav", w.SND_ASYNC)
 
     if ball.xcor() > 390:
         ball.goto(0,0)
@@ -99,6 +112,7 @@ while True:
         score_a +=1
         pen.clear()
         pen.write("PLAYER A:{}  PLAYER B:{}".format(score_a,score_b), align="center", font=("courier", 24, "normal"))
+        w.PlaySound("hit.wav", w.SND_ASYNC)
 
     if ball.xcor() < -390:
         ball.goto(0,0)
@@ -106,12 +120,15 @@ while True:
         score_b += 1
         pen.clear()
         pen.write("PLAYER A:{}  PLAYER B:{}".format(score_a, score_b), align="center", font=("courier", 24, "normal"))
+        w.PlaySound("hit.wav", w.SND_ASYNC)
     #paddle and ball collisions
 
     if ball.xcor() > 340 and ball.xcor() <350 and (ball.ycor()< paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -50):
         ball.setx(340)
         ball.dx *= -1
+        w.PlaySound("hit1.wav", w.SND_ASYNC)
 
     if ball.xcor() < -340 and ball.xcor() > -350 and (ball.ycor()< paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() -50):
         ball.setx(-340)
         ball.dx *= -1
+        w.PlaySound("hit1.wav", w.SND_ASYNC)
